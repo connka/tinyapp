@@ -48,6 +48,16 @@ app.get("/urls", (req, res) => {
     let templateVars = { urls: urlDatabase };
     res.render("urls_index", templateVars);
   });
+
+//redirects valid url, else return 404
+  app.get("/u/:shortURL", (req, res) => {
+    if(urlDatabas[req.params.shortURL]){
+      res.statusCode = 308;
+      res.redirect(`${urlDatabase[req.params.shortURL].url}`);
+    } else {res.statusCode = 404;
+      res.send("<h1>Error 404: Page not found.");
+    }
+  });
   
 app.post("/urls", (req, res) => {
     console.log(req.body);  // debug statement to see POST parameters
