@@ -6,32 +6,26 @@ var PORT = 8080; // default port 8080
 
 app.set("view engine", "ejs")
 
+app.use(bodyParser.urlencoded({extended: false}));
+
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
 
 app.get("/", (req, res) => {
-  res.send("<html><head>Tiny App!!</head></html>");
+  res.render("urls_new");
 });
 
-// app.get("/hello", (req, res) => {
-//     res.send("<html><body>Hello<b>World</b></body></html>\n");
-// });
 ///////////////FUNCTIONS///////////////
-function generateRandomString(stringLength) {
-let output = [];
-let str = "";
-
-for (var i = 0; i < stringLength; i++){
-  let ranNum = String.fromCharCode(Math.random());
-  if(ranNum === "/" || ranNum === "\\") {
-    ranNum = "x";
-  };
-  output.push(ranNum);
-}
-str = output/join('');
-return str;
+//URL String generator
+var generateRandomString = function() {
+  var string = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for(var i = 0; i < 6; i++) {
+      string += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return string;
 }
 
 ///////////////GET ROUTES///////////////
@@ -49,8 +43,8 @@ app.get("/urls", (req, res) => {
     res.render("urls_index", templateVars);
   });
 
-//redirects valid url, else return 404
-  app.get("/u/:shortURL", (req, res) => {
+//redirects valid url
+  app.get("/urls/:shortURL", (req, res) => {
     if(urlDatabas[req.params.shortURL]){
       res.statusCode = 308;
       res.redirect(`${urlDatabase[req.params.shortURL].url}`);
@@ -59,9 +53,19 @@ app.get("/urls", (req, res) => {
     }
   });
   
-app.post("/urls", (req, res) => {
-    console.log(req.body);  // debug statement to see POST parameters
-    res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  // Generates random URL
+  app.post("/urls", (req, res) => {
+    console.log(req.body);
+    const newID = generateRandomString(); 
+    urlDatabase[newID] = req.body.longURL;
+    console.log(urlDatabase);
+    res.redirect("/urls/");
+}); 
+
+// Delete a url
+app.post("/urls/:shortURLID/delete", (req, res) => {
+    delete urlDatabase[req.params.shortURLID];
+    res.redirect(`/urls`);
   });
 
 app.listen(PORT, () => {
