@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<header>
-  <% include partials/_header.ejs %>
-</header>
-<title>TinyApp</title>
-<body>
-<ul>
-    <table>
-        <% for(var i=0; i < urls.length; i++) { %>
-           <tr>
-             <td><%= urls[i].id %></td>
-             <td><%= urls[i].name %></td>
-           </tr>
-        <% } %>
-        </table>
-</ul>
-</ul>
+  <head>
+        <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
+  </head>
+        <p style= "font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Archive
+  <body style="font-size:20px; padding:50px;">
+    <% include partials/_header %>
+<p>
+    <ul style= "font-family:georgia,garamond,serif;font-size:14px">
+        <% for(let key in urls) { %>
+            <li><%= key %>  → <a href = "<%= urls[key] %>"> <%= urls[key] %></a>  
+                <form method="POST" action="/urls/<%=key %>/delete">
+                    <input type="submit" value="Remove URL">
+                  </form>
+                <% } %>
+        </ul>
+        </p>
 </body>
 </html>
