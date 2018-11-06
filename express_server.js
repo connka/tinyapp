@@ -15,6 +15,20 @@ var urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+//User Database
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
+
 ///////////////FUNCTIONS///////////////
 //URL String generator
 var generateRandomString = function() {
@@ -103,6 +117,11 @@ app.post("/login",(req, res) => {
     res.redirect("/urls/");
 
 });
+
+// User registration page
+app.get("/register", (req, res) => {
+  res.render("urls_register");
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
