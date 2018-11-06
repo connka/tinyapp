@@ -8,13 +8,17 @@
     <% include partials/_header %>
 <p>
     <ul style= "font-family:georgia,garamond,serif;font-size:14px">
-        <% for(let key in urls) { %>
-            <li><%= key %>  → <a href = "<%= urls[key] %>"> <%= urls[key] %></a>  
-                <form method="POST" action="/urls/<%=key %>/delete">
-                    <input type="submit" value="Remove URL">
-                  </form>
-                <% } %>
-        </ul>
-        </p>
-</body>
-</html>
+            <table>
+                    <% for (url in urls) { %>
+                    <form method="GET" action="/urls/<%= url %>">
+                        <%= url %> - <%= urls[url]%>
+                    </form>
+                    <a href="/urls/<%= url %>/">Edit</a>
+                    <form method="POST" action="/urls/<%=url %>/delete">
+                        <input type="submit" value="Remove URL">
+                    </form><br/>
+                    
+                    <% }; %>
+                    </table>
+                </body>
+                </html>

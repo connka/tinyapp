@@ -1,106 +1,108 @@
 var express = require("express");
 const bodyParser = require("body-parser");
 var app = express();
-app.use(bodyParser.urlencoded({extended: true}));
 var PORT = 8080; // default port 8080
-const morgan = require('morgan')
+const cookieParser = require("cookie-parser");
 
-app.set("view engine", "ejs")
+app.set("view engine", "ejs");
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(morgan('dev'))
 
+//URL Database
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
 
-app.get("/", (req, res) => {
-  res.render("urls_new");
-});
-
 ///////////////FUNCTIONS///////////////
 //URL String generator
 var generateRandomString = function() {
   var string = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for(var i = 0; i < 6; i++) {
-      string += possible.charAt(Math.floor(Math.random() * possible.length));
+  var possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < 6; i++) {
+    string += possible.charAt(Math.floor(Math.random() * possible.length));
   }
-  return string;  
-}
+  return string;
+};
 
 ///////////////GET ROUTES///////////////
 
-//new url
-app.get("/urls/new", (req, res) => {
-//  console.log('fired urlsnew')
-  res.render("urls_new");
+app.get("/", (req, res) => {
+  let templateVars = {
+    username: req.cookies["username"]
+  }
+  res.render("urls_new", templateVars);
 });
 
-//update existing URL
+//new url
+app.get("/urls/new", (req, res) => {
+  let templateVars = {
+    username: req.cookies["username"]
+  };
+  res.render("urls_new", templateVars);
+});
+
+  //Submit an edit url
 app.get("/urls/:id", (req, res) => {
-//  console.log('fired urls:id')
-  let templateVars = { shortURL: req.params.id };
-  res.render("urls_show", templateVars);
-  });
+    let templateVars = { 
+      shortURL: req.params.id,
+      username: req.cookies["username"] 
+  };
+    res.render("urls_show", templateVars);
+    });
 
-  //Displays Archive
+ app.post("/urls/:id/", (req, res) => {
+  console.log("the post" + req.body.longURL)
+  urlDatabase[req.params.id] = req.body.longURL;
+  res.redirect("/urls/");
+});
+
+//Displays Archive
 app.get("/urls", (req, res) => {
-//  console.log('urls')
-    let templateVars = { urls: urlDatabase };
-    res.render("urls_index", templateVars);
-  });
+  let templateVars = { urls: urlDatabase, 
+  username: req.cookies["username"]
+};
+  res.render("urls_index", templateVars);
+});
 
-//redirects valid url
-  app.get("/urls/:shortURL", (req, res) => {
-//    console.log('/urls/:shortURL')
-    if(urlDatabas[req.params.shortURL]){
-      res.statusCode = 308;
-      res.redirect(`${urlDatabase[req.params.shortURL].url}`);
-    } else {res.statusCode = 404;
-      res.send("<h1>Error 404: Page not found.");
-    }
-  });
-  
-  // Generates random URL
-  app.post("/urls", (req, res) => {
-    //console.log('/urlspost')
-    console.log(req.body);
-    const newID = generateRandomString(); 
-    urlDatabase[newID] = req.body.longURL;
-    console.log(urlDatabase);
-    res.redirect('/urls/');
-}); 
+// Generates random URL
+app.post("/urls", (req, res) => {
+  console.log(req.body);
+  const newID = generateRandomString();
+  urlDatabase[newID] = req.body.longURL;
+  console.log(urlDatabase);
+  res.redirect("/urls/");
+});
 
 // Delete a url
 app.post("/urls/:shortURLID/delete", (req, res) => {
   //console.log('urls/:shortURLID')
-    delete urlDatabase[req.params.shortURLID];
-    res.redirect(`/urls`);
+  delete urlDatabase[req.params.shortURLID];
+  res.redirect(`/urls`);
+});
+
+//User login
+app.get("/login", (req, res) => {
+  let templateVars = {
+    username: req.cookies["username"]
+  };
+  res.render("urls_login", templateVars);
+});
+
+app.post("/login",(req, res) => {
+  res.cookie("username", req.body.username);
+  res.redirect("/");
   });
 
-  app.get("/urls/:id/", (req, res) => {
-    //console.log('urls/id/ GET')
-    let templateVars = {
-      shortURL: req.params.id,
-      longURL: urlDatabase[req.params.id],
-    };
-      res.render(`/urls/:id/`);
-  });
-  
-  //Submit an edit url
-  app.get("/urls/:id", (req, res) => {
-    //  console.log('fired urls:id')
-      let templateVars = { shortURL: req.params.id };
-      res.render("urls_show", templateVars);
-      });
+  //User logout
 
-  app.post("/urls/:id/", (req, res) => {
-    console.log("the post" + req.body.longURL)
-    urlDatabase[req.params.id] = req.body.longURL;
+  app.post("/logout", (req, res) => {
+    res.clearCookie("username");
     res.redirect("/urls/");
-  });
+
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
