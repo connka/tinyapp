@@ -1,16 +1,21 @@
 
 <!DOCTYPE html>
+<html lang ="en">
 <head>
         <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
   </head>
         <p style= "font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Archive
   <body style="font-size:20px; padding:50px;">
     <% include partials/_header %>
-    <h3>
-        Update Your URLs Database
-    </h3>
+
+    <ul>
+    <h3>Update Your URL: <% shortURL %></h3>
+
     <form method="POST" action="/urls/<%= shortURL %>/update">
-    <input type="text" name="longURL" placeholder="http://">
+       <label for="logURL">Update your URL:</label> 
+    <input type="text" id="longURL" name="longURL" placeholder="http://">
     <input type="submit" value="Update">
     </form>
+</ul>
 </body>
+</html>

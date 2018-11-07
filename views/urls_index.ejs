@@ -4,27 +4,33 @@
 <head>
   <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
 </head>
-<p style="font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Archive
+<p style="font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Index
 
   <body style="font-size:20px; padding:50px;">
     <% include partials/_header %>
     <p>
       <ul style="font-family:georgia,garamond,serif;font-size:14px">
-        <table>
-          <% for (url in urls) { %>
-          <form method="GET" action="/urls/<%= url %>">
-            <a href="<%= urls[url]%>">
-              <%= url %></a> -
-            <%= urls[url]%>
-          </form>
-          <form method="POST" action="/urls/<%=url %>/delete">
-            <input type="submit" value="Delete">
-          </form>
-          <a href="/urls/<%= url %>/">Edit</a>
-          <br />
-
+        <% if (!user_id) { %>
+          <h1> Please Register or Login to see URLs </h1>
+        <% } else { %>
+          <h3>Shortened URLS</h3>
+          <ul>
+            <% for(prop in urls) { %>
+              <% if (urls[prop]['userID'] == user_id['id']) { %>
+                <li> <a href="/urls/<%= prop %>"><%= prop %></a>: <%= urls[prop]['url'] %>
+                  <form method="POST" action="/urls/<%= prop %>/delete">
+                    <input type="submit" value="Delete">
+                  </form>
+                  <form method="GET" action="/urls/<%= prop %>/edit">
+                    <input type="submit" value="Edit">
+                  </form>
+                </li>
+              <% } %>
+            <% }; %>
+    
+        </ul>
+          <p><a href="/urls/new">Make a New Shortened URL</a></p>
           <% }; %>
-        </table>
   </body>
 
 </html>
