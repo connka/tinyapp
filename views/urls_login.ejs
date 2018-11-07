@@ -3,12 +3,14 @@
   <head>
         <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
   </head>
-        <p style= "font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Archive
-  <body style="font-size:20px; padding:50px;">
-    <% include partials/_header %>
+        <p style= "font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Login
+    <body>
 
-<form method="POST" action="/login">
-    username: <input name ="username" id ="username" type="text"> <br>
-    password: <input name ="password" id ="password" type="password">  
-    <input type="submit" value="Sign In">
-  </html>
+            <form action="/urls/login" method="POST" style="margin:150px;">
+                  <label for="user">Login:</label>
+                  <input id="email" type="text" name="email" placeholder="email" style="width: 300px">
+                  <input id="password" type="password" name="password" placeholder="password" style="width: 300px">
+                  <input type="submit" value="Submit">
+            </form>
+
+      </body>

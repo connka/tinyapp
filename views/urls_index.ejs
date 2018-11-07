@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-        <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
-  </head>
-        <p style= "font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Archive
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
+</head>
+<p style="font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Archive
+
   <body style="font-size:20px; padding:50px;">
     <% include partials/_header %>
-<p>
-    <ul style= "font-family:georgia,garamond,serif;font-size:14px">
-            <table>
-                    <% for (url in urls) { %>
-                    <form method="GET" action="/urls/<%= url %>">
-                      <a href="<%= urls[url]%>"><%= url %></a> - <%= urls[url]%>
-                    </form>
-                    <form method="POST" action="/urls/<%=url %>/delete">
-                        <input type="submit" value="Delete">
-                    </form>
-                    <a href="/urls/<%= url %>/">Edit</a>
-                    <br/>
-                    
-                    <% }; %>
-                    </table>
-                </body>
-                </html>
+    <p>
+      <ul style="font-family:georgia,garamond,serif;font-size:14px">
+        <table>
+          <% for (url in urls) { %>
+          <form method="GET" action="/urls/<%= url %>">
+            <a href="<%= urls[url]%>">
+              <%= url %></a> -
+            <%= urls[url]%>
+          </form>
+          <form method="POST" action="/urls/<%=url %>/delete">
+            <input type="submit" value="Delete">
+          </form>
+          <a href="/urls/<%= url %>/">Edit</a>
+          <br />
+
+          <% }; %>
+        </table>
+  </body>
+
+</html>
