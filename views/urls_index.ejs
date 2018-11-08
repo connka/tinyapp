@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-  <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 </head>
-<p style="font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Index
+<p style="font-family:'Raleway', sans-serif;font-size:25px">Tiny App - Archive
 
-  <body style="font-size:20px; padding:50px;">
+    <body style="font-family:'Raleway', sans-serif">
     <% include partials/_header %>
     <p>
-      <ul style="font-family:georgia,garamond,serif;font-size:14px">
+      <ul style="font-family:'Raleway', sans-serif; font-size:14px">
         <% if (!user_id) { %>
           <h1> Please Register or Login to see URLs </h1>
         <% } else { %>
@@ -32,5 +32,4 @@
           <p><a href="/urls/new">Make a New Shortened URL</a></p>
           <% }; %>
   </body>
-
 </html>

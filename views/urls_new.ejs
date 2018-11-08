@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
         <head>
-                <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
         </head>
-                <p style= "font-family:'Spicy Rice', cursive;font-size:25px">Tiny App - Archive
+                <p style= "font-family:'Raleway', sans-serif;font-size:25px">Tiny App - Add New URL
         <body style="font-size:20px; padding:50px;">
-            <% include partials/_header %>
-    <form action="/urls" method="POST">
-    <label for="longURL">Enter a URL:</label>
-    <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
-    <input type="submit" value="Submit">
-    </form>
-    </body>
+                <% include partials/_header %>
+                <form action="/urls" method="POST">
+                        <label for="longURL" style="font-family:'Raleway', sans-serif">Enter a URL:</label>
+                        <input id="longURL" type="text" name="longURL" placeholder="http://" style="font-family:'Raleway', sans-serif; width: 300px">
+                        <input type="submit" style="font-family:'Raleway', sans-serif" value="Submit">
+                </form>
+        </body>
 </html>

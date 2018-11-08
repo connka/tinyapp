@@ -1,17 +1,22 @@
 <!-- views/partials/header.ejs -->
 
 
-<title>tinyAPP</title>
-
+<title style="font-family:'Raleway', sans-serif">tinyAPP</title>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <style>
+    body { background-color: #D5F5E3}
+    </style>
+</head>
 <% if (!user_id) { %>
-  <form method="GET" action="/urls/login">
+  <form method="GET" action="/urls/login" style="font-family:'Raleway', sans-serif">
     <input type="submit" value="Login">
   </form>
   <form method="GET" action="/urls/register">
     <input type="submit" value="Register">
   </form>
 <% } else { %>
-  <form action="/urls/logout" method="POST" style="margin:20px;">
+  <form action="/urls/logout" method="POST" style="font-family:'Raleway', sans-serif;margin:20px;">
     <label for="user"> <%= user_id['email'] %> </label>
     <input type="submit" value="Logout">
   </form>
