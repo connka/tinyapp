@@ -48,7 +48,7 @@ app.post("/urls/login", (req, res) => {
   let email = req.body["email"];
   let password = req.body["password"];
   if (!email || !password) {
-    return res.sendStatus(400);
+    res.redirect("/urls/login/error");
   }
   let id;
   for (user_id in users) {
@@ -67,9 +67,15 @@ app.post("/urls/login", (req, res) => {
     req.session.user_id = id;
     res.redirect("/urls/");
   } else {
-    res.sendStatus(404);
+    res.redirect("/urls/login/error");
   }
 });
+
+//User error
+app.get("/urls/login/error", (req, res) => {
+  res.render("urls_login_error");
+});
+
 // User logout
 app.post("/urls/logout", (req, res) => {
   req.session.user_id = null;
